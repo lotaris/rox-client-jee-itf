@@ -76,7 +76,7 @@ public abstract class AbstractRoxListener extends DefaultListener {
 	 * @return The test created from all the data available
 	 */
 	protected Test createTest(Description description, RoxableTest methodAnnotation, RoxableTestClass classAnnotation) {
-		Map<String, String> data = new HashMap<String, String>();
+		Map<String, String> data = new HashMap<>();
 		if (description.getData() != null || description.getData().size() > 0) {
 			data.putAll(description.getData());
 		}
