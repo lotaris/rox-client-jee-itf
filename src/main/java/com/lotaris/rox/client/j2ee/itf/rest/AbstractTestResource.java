@@ -38,6 +38,7 @@ public abstract class AbstractTestResource {
 		@QueryParam("filters") String filters, 
 		@QueryParam("seed") Long seed, 
 		@QueryParam("category") String category, 
+		@QueryParam("project") String projectName,
 		@QueryParam("options") String options) {
 		
 		// Parse additional options
@@ -61,8 +62,8 @@ public abstract class AbstractTestResource {
 		// Retrieve the test controller
 		TestController testController = getController();
 		
-		Map<String, Listener> roxListeners = new HashMap<String, Listener>();
-		Map<String, Filter> roxFilters = new HashMap<String, Filter>();
+		Map<String, Listener> roxListeners = new HashMap<>();
+		Map<String, Filter> roxFilters = new HashMap<>();
 
 		RoxListener defaultListener;
 		
@@ -74,7 +75,7 @@ public abstract class AbstractTestResource {
 		}
 	
 		// To manage the filters
-		List<String> finalFilters = new ArrayList<String>();
+		List<String> finalFilters = new ArrayList<>();
 		if (filters != null && !filters.isEmpty()) {
 			finalFilters.addAll(Arrays.asList(filters.split(",")));			
 		}
@@ -87,7 +88,7 @@ public abstract class AbstractTestResource {
 		roxListeners.put("roxListener", defaultListener);
 		
 		// Add more listeners
-		for (Entry<String, Listener> listener : getAdditionalListeners(category).entrySet()) {
+		for (Entry<String, Listener> listener : getAdditionalListeners(category, projectName).entrySet()) {
 			roxListeners.put(listener.getKey(), listener.getValue());
 		}
 		
@@ -118,13 +119,13 @@ public abstract class AbstractTestResource {
 	 * @return More filters to add
 	 */
 	public List<String> getAdditionalFilters() {
-		return new ArrayList<String>();
+		return new ArrayList<>();
 	}
 	
 	/**
 	 * @return More listeners to use
 	 */
-	public Map<String, Listener> getAdditionalListeners(String category) {
-		return new HashMap<String, Listener>();
+	public Map<String, Listener> getAdditionalListeners(String category, String projectName) {
+		return new HashMap<>();
 	}
 }

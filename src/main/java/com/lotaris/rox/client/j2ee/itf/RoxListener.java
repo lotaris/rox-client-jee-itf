@@ -26,7 +26,7 @@ public class RoxListener extends AbstractRoxListener {
 	/**
 	 * Store the list of the tests executed
 	 */
-	private List<Test> results = new ArrayList<Test>();
+	private List<Test> results = new ArrayList<>();
 
 	public RoxListener() {}
 	
