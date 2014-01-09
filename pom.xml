@@ -14,7 +14,7 @@
 
 	<properties>
 		<lotaris.test.framework.itf.version>1.0.0</lotaris.test.framework.itf.version>
-		<lotaris.rox.client.version>2.0.0</lotaris.rox.client.version>
+		<lotaris.rox.client.version>2.0.1</lotaris.rox.client.version>
 	</properties>
 
 	<build>
@@ -77,8 +77,8 @@
 				<plugins>
 					<plugin>
 						<groupId>com.lotaris.maven.rox.plugins</groupId>
-						<artifactId>maven-rox-junit-plugin</artifactId>
-						<version>${lotaris.rox.maven.junit.version}</version>
+						<artifactId>rox-junit-maven-plugin</artifactId>
+						<version>2.0.2</version>
 						<executions>
 							<execution>
 								<goals>
@@ -95,7 +95,7 @@
 	<dependencies>
 		<dependency>
 			<groupId>com.lotaris.rox.client</groupId>
-			<artifactId>rox-client-java-core</artifactId>
+			<artifactId>rox-client-junit</artifactId>
 			<version>${lotaris.rox.client.version}</version>
 		</dependency>
 
