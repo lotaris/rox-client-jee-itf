@@ -6,11 +6,13 @@
 
 	<groupId>com.lotaris.rox.client</groupId>
 	<artifactId>rox-client-jee-itf</artifactId>
-	<version>2.1.1-SNAPSHOT</version>
+	<version>2.1.1</version>
 	<packaging>jar</packaging>
 
 	<name>ROX Client Java EE ITF</name>
 	<description>Java EE ITF ROX Center client. Client able to send test results to ROX Center from Java EE Integration Test Framework tests.</description>
+
+	<url>https://github.com/lotaris/rox-client-jee-itf</url>
 
 	<licenses>
 		<license>
@@ -35,43 +37,131 @@
 	<scm>
 		<connection>scm:git:git@github.com:lotaris/rox-client-jee-itf.git</connection>
 		<developerConnection>scm:git:git@github.com:lotaris/rox-client-jee-itf.git</developerConnection>
-		<url>https://github.com/lotaris/rox-client-jee-itf</url>
+		<url>git@github.com:lotaris/rox-client-jee-itf.git</url>
 	</scm>
 
 	<properties>
-		<lotaris.test.framework.itf.version>1.0.0</lotaris.test.framework.itf.version>
-		<lotaris.rox.client.version>2.0.1</lotaris.rox.client.version>
+    <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
 	</properties>
+
+	<distributionManagement>
+		<snapshotRepository>
+			<id>ossrh</id>
+			<url>https://oss.sonatype.org/content/repositories/snapshots</url>
+		</snapshotRepository>
+		  <repository>
+				<id>ossrh</id>
+				<url>https://oss.sonatype.org/service/local/staging/deploy/maven2/</url>
+			</repository>
+	</distributionManagement>
 
 	<build>
 		<plugins>
+			<plugin>
+				<groupId>org.sonatype.plugins</groupId>
+				<artifactId>nexus-staging-maven-plugin</artifactId>
+				<version>1.6.3</version>
+				<extensions>true</extensions>
+				<configuration>
+					<serverId>ossrh</serverId>
+					<nexusUrl>https://oss.sonatype.org/</nexusUrl>
+					<autoReleaseAfterClose>true</autoReleaseAfterClose>
+				</configuration>
+			</plugin>				
+
+			<plugin>
+				<groupId>org.apache.maven.plugins</groupId>
+				<artifactId>maven-clean-plugin</artifactId>
+				<version>2.5</version>
+			</plugin>
+
 			<plugin>
 				<groupId>org.apache.maven.plugins</groupId>
 				<artifactId>maven-resources-plugin</artifactId>
 				<version>2.6</version>
 				<configuration>
-					<encoding>UTF-8</encoding>
+					<encoding>${project.build.sourceEncoding}</encoding>
 				</configuration>
 			</plugin>
 
 			<plugin>
 				<groupId>org.apache.maven.plugins</groupId>
 				<artifactId>maven-compiler-plugin</artifactId>
-				<version>2.3.2</version>
+				<version>3.1</version>
 				<configuration>
-					<encoding>UTF-8</encoding>
+					<encoding>${project.build.sourceEncoding}</encoding>
 					<source>1.7</source>
 					<target>1.7</target>
+					<compilerArgs>
+						<arg>-Xlint</arg>
+					</compilerArgs>
 				</configuration>
 			</plugin>
 
 			<plugin>
 				<groupId>org.apache.maven.plugins</groupId>
-				<artifactId>maven-surefire-plugin</artifactId>
-				<version>2.13</version>
+				<artifactId>maven-source-plugin</artifactId>
+				<version>2.2.1</version>
+				<executions>
+					<execution>
+						<id>attach-sources</id>
+						<goals>
+							<goal>jar-no-fork</goal>
+						</goals>
+					</execution>
+				</executions>
+			</plugin>
+
+			<plugin>
+				<groupId>org.apache.maven.plugins</groupId>
+				<artifactId>maven-javadoc-plugin</artifactId>
+				<version>2.9.1</version>
 				<configuration>
-					<skip>true</skip>
+					<encoding>UTF-8</encoding>
 				</configuration>
+				<executions>
+					<execution>
+						<id>attach-javadocs</id>
+						<goals>
+							<goal>jar</goal>
+						</goals>
+					</execution>
+				</executions>
+			</plugin>
+
+			<plugin>
+				<groupId>org.apache.maven.plugins</groupId>
+				<artifactId>maven-gpg-plugin</artifactId>
+				<version>1.5</version>
+				<executions>
+					<execution>
+						<id>sign-artifacts</id>
+						<phase>verify</phase>
+						<goals>
+							<goal>sign</goal>
+						</goals>
+					</execution>
+				</executions>
+			</plugin>
+
+			<plugin>
+				<groupId>org.apache.maven.plugins</groupId>
+				<artifactId>maven-surefire-plugin</artifactId>
+				<version>2.16</version>
+				<configuration>
+					<properties>
+						<property>
+							<name>listener</name>
+							<value>com.lotaris.rox.client.junit.RoxListener</value>
+						</property>
+					</properties>
+				</configuration>
+			</plugin>
+
+			<plugin>
+				<groupId>org.apache.maven.plugins</groupId>
+				<artifactId>maven-deploy-plugin</artifactId>
+				<version>2.8.1</version>
 			</plugin>
 		</plugins>
 
@@ -85,33 +175,14 @@
 
 	<profiles>
 		<profile>
-			<id>release</id>
+			<id>versioning</id>
+
 			<build>
 				<plugins>
 					<plugin>
 						<groupId>org.codehaus.mojo</groupId>
 						<artifactId>versions-maven-plugin</artifactId>
-						<version>2.0</version>
-					</plugin>
-				</plugins>
-			</build>
-		</profile>
-
-		<profile>
-			<id>rox</id>
-			<build>
-				<plugins>
-					<plugin>
-						<groupId>com.lotaris.maven.rox.plugins</groupId>
-						<artifactId>rox-junit-maven-plugin</artifactId>
-						<version>2.0.2</version>
-						<executions>
-							<execution>
-								<goals>
-									<goal>junit</goal>
-								</goals>
-							</execution>
-						</executions>
+						<version>2.1</version>
 					</plugin>
 				</plugins>
 			</build>
@@ -121,14 +192,14 @@
 	<dependencies>
 		<dependency>
 			<groupId>com.lotaris.rox.client</groupId>
-			<artifactId>rox-client-junit</artifactId>
-			<version>${lotaris.rox.client.version}</version>
+			<artifactId>rox-client-java</artifactId>
+			<version>2.2.1</version>
 		</dependency>
 
 		<dependency>
 			<groupId>com.lotaris.test.frameworks</groupId>
-			<artifactId>lotaris-j2ee-itf</artifactId>
-			<version>${lotaris.test.framework.itf.version}</version>
+			<artifactId>jee-itf</artifactId>
+			<version>2.1.1</version>
 			<scope>provided</scope>
 			<exclusions>
 				<exclusion>
@@ -147,6 +218,12 @@
 		</dependency>
 
 		<dependency>
+			<groupId>org.slf4j</groupId>
+			<artifactId>slf4j-api</artifactId>
+			<version>1.7.5</version>
+		</dependency>
+
+		<dependency>
 			<groupId>junit</groupId>
 			<artifactId>junit</artifactId>
 			<version>4.11</version>
@@ -155,19 +232,28 @@
 		<dependency>
 			<groupId>org.mockito</groupId>
 			<artifactId>mockito-all</artifactId>
-			<scope>test</scope>
 			<version>1.9.5</version>
+			<scope>test</scope>
 		</dependency>
 		<dependency>
 			<groupId>org.powermock</groupId>
 			<artifactId>powermock-reflect</artifactId>
 			<version>1.5</version>
+			<scope>test</scope>
 		</dependency>
 
 		<dependency>
-			<groupId>org.slf4j</groupId>
-			<artifactId>slf4j-api</artifactId>
-			<version>1.7.5</version>
+			<groupId>com.lotaris.rox.client</groupId>
+			<artifactId>rox-client-junit</artifactId>
+			<version>2.2.1-SNAPSHOT</version>
+			<scope>test</scope>
+		</dependency>
+
+		<dependency>
+			<groupId>commons-logging</groupId>
+			<artifactId>commons-logging-api</artifactId>
+			<version>1.1</version>
+			<scope>test</scope>
 		</dependency>
 	</dependencies>
 </project>

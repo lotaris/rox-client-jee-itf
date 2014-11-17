@@ -48,7 +48,7 @@ public class RoxListenerTest {
 		MockitoAnnotations.initMocks(this);
 		
 		roxListener = new RoxListener();
-		results = new ArrayList<com.lotaris.rox.common.model.v1.Test>();
+		results = new ArrayList<>();
 		Whitebox.setInternalState(roxListener, "results", results);
 		
 		try {
@@ -91,8 +91,7 @@ public class RoxListenerTest {
 			
 			description = new Description("groupName", a, m);
 		}
-		catch (NoSuchMethodException nme) {}
-		catch (SecurityException se) {}
+		catch (NoSuchMethodException | SecurityException nme) {}
 
 		roxListener.testEnd(description.pass());
 		
@@ -112,8 +111,7 @@ public class RoxListenerTest {
 			
 			description = new Description("groupName", a, m);
 		}
-		catch (NoSuchMethodException nme) {}
-		catch (SecurityException se) {}
+		catch (NoSuchMethodException | SecurityException nme) {}
 
 		final String descriptionName = description.getName();
 		
@@ -148,8 +146,7 @@ public class RoxListenerTest {
 			description = new Description("groupName", a, m);
 			description.addData("test", "Test");
 		}
-		catch (NoSuchMethodException nme) {}
-		catch (SecurityException se) {}
+		catch (NoSuchMethodException | SecurityException nme) {}
 
 		roxListener.testEnd(description.pass());
 		

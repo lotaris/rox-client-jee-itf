@@ -4,22 +4,13 @@
 
 ## Usage
 
-1. Clone the repository.
-
-2. Run the following command
-
-```bash
-cd <projectFolder>
-mvn clean install
-```
-
-3. Put the following dependency in your pom.xml
+1. Put the following dependency in your pom.xml
 
 ```xml
 <dependency>
   <groupId>com.lotaris.rox.client</groupId>
   <artifactId>rox-client-jee-itf</artifactId>
-  <version>2.1.0</version>
+  <version>2.1.1</version>
 </dependenc>
 ```
 

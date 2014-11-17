@@ -26,8 +26,7 @@ public class RoxFilterTest {
 			
 			description = new Description("groupName", a, m);
 		}
-		catch (NoSuchMethodException nme) {}
-		catch (SecurityException se) {}
+		catch (NoSuchMethodException | SecurityException nme) {}
 	}
 	
 	/**
